@@ -4,7 +4,8 @@ const authRouter = require('express').Router();
 const User = require('../models/user');
 const Cleaner = require('../models/cleaner');
 
-authRouter.post('/userAuth', async (req, res) => {
+// Login Endpoint for User
+authRouter.post('/user', async (req, res) => {
     try {
         const { username, password } = req.body;
 
@@ -33,11 +34,14 @@ authRouter.post('/userAuth', async (req, res) => {
     }
 });
 
-authRouter.post('/cleanerAuth', async (req, res) => {
+// Login Endpoint for Cleaner
+authRouter.post('/cleaner', async (req, res) => {
     try {
         const { username, password } = req.body;
 
         const cleaner = await Cleaner.findOne({ username });
+
+        const isCorrectPassword = cleaner === null ? false : await bcrypt.compare(password, user.passwordHash);
         
     } catch(error) {
         res.status(400).json({error: error.message})
