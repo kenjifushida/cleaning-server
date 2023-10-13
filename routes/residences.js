@@ -1,12 +1,12 @@
-const residenceRouter = require('express').Router();
+const residencesRouter = require('express').Router();
 const Residence = require('../models/residence');
 const User = require('../models/user');
 const authenticateToken = require('../utils/authenticateToken');
 
 // Add a new residence for the logged in user
-residenceRouter.post('/add', authenticateToken, async (req, res) => {
+residencesRouter.post('/add', authenticateToken, async (req, res) => {
     try {
-        const address = req.body.address;
+        const {address} = req.body;
         const user = await User.findOne({username: req.user.username});
 
         if(!(user && address)) throw new Error("Couldn't add a new residence");
@@ -23,4 +23,4 @@ residenceRouter.post('/add', authenticateToken, async (req, res) => {
     }
 });
 
-module.exports = residenceRouter;
+module.exports = residencesRouter;
