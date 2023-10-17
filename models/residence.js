@@ -9,6 +9,14 @@ const residenceSchema = new mongoose.Schema({
     address: {
         type: String,
         required: true
+    },
+    rooms: {
+        type: Number,
+        required:true
+    },
+    bathrooms: {
+        type: Number,
+        required: true
     }
 });
 

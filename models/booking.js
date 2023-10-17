@@ -5,7 +5,11 @@ const bookingSchema = new mongoose.Schema({
         type: Date,
         required: true,
     },
-    status: {
+    serviceType: {
+        type: String,
+        required: true,
+    },
+    bookingStatus: {
         type: String,
         required: true
     },
@@ -17,6 +21,11 @@ const bookingSchema = new mongoose.Schema({
     cleaner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Cleaner',
+        required: false
+    },
+    residence: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Residence',
         required: true
     }
 });

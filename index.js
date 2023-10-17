@@ -5,6 +5,7 @@ const db = require('./utils/db');
 const authRouter = require('./routes/auths');
 const usersRouter = require('./routes/users');
 const residencesRouter = require('./routes/residences');
+const bookingsRouter = require('./routes/bookings');
 const app = express();
 const port = 3000;
 db();
@@ -27,6 +28,7 @@ app.use(requestReader);
 app.use('/auths/', authRouter);
 app.use('/users/', usersRouter);
 app.use('/residences/', residencesRouter);
+app.use('/bookings/', bookingsRouter);
 
 app.listen(port, () => {
     console.log(`Server is running on port: ${port}`);
