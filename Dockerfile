@@ -1,0 +1,18 @@
+FROM node:alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+
+RUN npm install
+
+COPY . .
+
+ENV PORT=3000
+ENV MONGODB_URI=mongodb+srv://cleaningUser:oN4Nx7UDXUMefBvn@cluster0.l9kjuse.mongodb.net/
+ENV ACCESS_TOKEN_SECRET=1f98cc70875136d34408277f235282f7e3d727ef4fd7bc78a240e346e10392929325a41c2401e7c913d4d377c38d89165543741b295f1e72832c3bcb60b723ff
+ENV REFRESH_TOKEN_SECRET=793d2ea6c4661594fd3db449e67bac0120d8c6f723ffa0c3e4aabdb63f8f8019b4a88b72ec1f13fe3eff1c76ec0d00742ed3322e69a34bc6fb788dd5a47edd2b
+
+EXPOSE 3000
+
+CMD ["npm", "run", "devStart"]
