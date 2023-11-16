@@ -9,7 +9,7 @@ servicesRouter.get('/all', async (req, res) => {
     const services = await Service.find();
     res.status(200).json({ services });
   } catch(error) {
-    res.status(404).json({error: error.message});
+    res.status(404).json({error: 'Not found'});
   }
 });
 
@@ -25,7 +25,7 @@ servicesRouter.post('/add', async (req, res) => {
     });
   
     await newService.save();
-    res.status(200).send('New Service added');
+    res.status(200).send('New Service added!');
   } catch(error) {
     res.status(400).json({ error: error.message });
   }
