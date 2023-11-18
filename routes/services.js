@@ -3,13 +3,15 @@ const servicesRouter = express.Router();
 
 // Models
 const Service = require('../models/service');
+// Error Handling
+const { ERROR_CODES } = require('../constants');
 
 servicesRouter.get('/all', async (request, response) => {
   try {
     const services = await Service.find();
     response.status(200).json({ services });
   } catch(error) {
-    response.status(404).json({error: 'Not found'});
+    response.status(ERROR_CODES.NOT_FOUND).json({error: 'Not found'});
   }
 });
 
@@ -27,7 +29,7 @@ servicesRouter.post('/add', async (request, response) => {
     await newService.save();
     response.status(200).send('New Service added!');
   } catch(error) {
-    response.status(400).json({ error: error.message });
+    response.status(ERROR_CODES.BAD_REQUEST).json({ error: error.message });
   }
 });
 

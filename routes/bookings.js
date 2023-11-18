@@ -7,7 +7,7 @@ const Booking = require('../models/booking');
 const Residence = require('../models/residence');
 
 // Utils
-const authenticateToken = require('../utils/authenticateToken');
+const authenticateToken = require('../jwt/authenticateToken');
 
 // Get all bookings made by the user
 bookingsRouter.get("/all", authenticateToken, async(request, response) => {

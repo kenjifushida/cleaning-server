@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const db = require('./utils/db');
+const db = require('./db/db');
 const authRouter = require('./routes/auths');
 const usersRouter = require('./routes/users');
 const residencesRouter = require('./routes/residences');
