@@ -6,9 +6,9 @@ const RefreshToken = require('../models/refreshToken');
 const Cleaner = require('../models/cleaner');
 
 // Login Endpoint for User
-authRouter.post('/user/login', async (req, res) => {
+authRouter.post('/user/login', async (request, res) => {
     try {
-        const { username, password } = req.body;
+        const { username, password } = request.body;
 
         const user = await User.findOne({ username });
         console.log(`Found ${user}`);
@@ -41,9 +41,9 @@ authRouter.post('/user/login', async (req, res) => {
     }
 });
 
-authRouter.delete('/user/logout', async (req, res) => {
+authRouter.delete('/user/logout', async (request, res) => {
     try {
-        const {token} = req.body;
+        const { token } = request.body;
         const deletedToken = await RefreshToken.deleteOne({ token:token });
         if(deletedToken.deletedCount != 1) throw new Error("Couldn't successfully log out");
         res.status(200).send("User successfully logged out");
@@ -53,9 +53,9 @@ authRouter.delete('/user/logout', async (req, res) => {
 });
 
 // Login Endpoint for Cleaner (NOT COMPLETED YET)
-authRouter.post('/cleaner', async (req, res) => {
+authRouter.post('/cleaner', async (request, res) => {
     try {
-        const { username, password } = req.body;
+        const { username, password } = request.body;
 
         const cleaner = await Cleaner.findOne({ username });
 

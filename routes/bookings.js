@@ -10,26 +10,26 @@ const Residence = require('../models/residence');
 const authenticateToken = require('../utils/authenticateToken');
 
 // Get all bookings made by the user
-bookingsRouter.get("/all", authenticateToken, async(req, res) => {
+bookingsRouter.get("/all", authenticateToken, async(request, response) => {
     try {
-        const user = await User.findOne({username: req.user.username})
+        const user = await User.findOne({username: request.user.username})
         const allBookingsByUser = await Booking.find({user});
-        res.status(200).json({bookings: allBookingsByUser});
+        response.status(200).json({bookings: allBookingsByUser});
     } catch(error) {
-        res.status(403).json({error: error.message});
+        response.status(403).json({error: error.message});
     }
 });
 
 // Create a new booking
-bookingsRouter.post('/add', authenticateToken, async (req, res) => {
+bookingsRouter.post('/add', authenticateToken, async (request, response) => {
     try {
         const {
             date, serviceType,
             residenceId,
             bookingStatus="pre-booked",
-        } = req.body;
+        } = request.body;
 
-        const user = User.findOne({username: req.user.username});
+        const user = User.findOne({username: request.user.username});
         const residence = Residence.findById(residenceId);
 
         const [foundUser, foundResidence] = await Promise.all([user, residence]);
@@ -46,9 +46,9 @@ bookingsRouter.post('/add', authenticateToken, async (req, res) => {
 
         await newBooking.save();
         // Stripe Processing and checkout session must be opened here
-        res.status(200).send("Booking successfully added");
+        response.status(200).send("Booking successfully added");
     } catch (error) {
-        res.status(403).json({error: error.message});
+        response.status(403).json({error: error.message});
     }
 });
 

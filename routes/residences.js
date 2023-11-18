@@ -1,13 +1,13 @@
 const residencesRouter = require('express').Router();
 const Residence = require('../models/residence');
 const User = require('../models/user');
-const authenticateToken = require('../utils/authenticateToken');
+const authenticateToken = require('../jwt/authenticateToken');
 
 // Add a new residence for the logged in user
-residencesRouter.post('/add', authenticateToken, async (req, res) => {
+residencesRouter.post('/add', authenticateToken, async (request, response) => {
     try {
-        const {address} = req.body;
-        const user = await User.findOne({username: req.user.username});
+        const { address } = request.body;
+        const user = await User.findOne({username: request.user.username});
 
         if(!(user && address)) throw new Error("Couldn't add a new residence");
         
@@ -17,16 +17,16 @@ residencesRouter.post('/add', authenticateToken, async (req, res) => {
         });
 
         await newResidence.save();
-        res.status(200).send("Residence successfully added");
+        response.status(200).send("Residence successfully added");
     } catch(error) {
-        res.status(400).json({error: error.message});
+        response.status(400).json({error: error.message});
     }
 });
 
-residencesRouter.delete('/remove', authenticateToken, async (req, res) => {
+residencesRouter.delete('/remove', authenticateToken, async (request, response) => {
     try {
-        const { residenceId } = req.body;
-        const user = User.findOne({username: req.user.username});
+        const { residenceId } = request.body;
+        const user = User.findOne({username: request.user.username});
         const residence = Residence.findOne({ _id: residenceId});
 
         const [foundUser, foundResidence] = await Promise.all([user, residence]);
@@ -42,10 +42,10 @@ residencesRouter.delete('/remove', authenticateToken, async (req, res) => {
     }
 });
 
-residencesRouter.put('/edit', authenticateToken, async (req, res) => {
+residencesRouter.put('/edit', authenticateToken, async (request, response) => {
     try {
-        const { residenceId, newAddress } = req.body;
-        const user = User.findOne({username : req.user.username});
+        const { residenceId, newAddress } = request.body;
+        const user = User.findOne({username : request.user.username});
         const residence = Residence.findById(residenceId);
 
         const [foundUser, foundResidence] = await Promise.all([user, residence]);
@@ -58,9 +58,9 @@ residencesRouter.put('/edit', authenticateToken, async (req, res) => {
         if(editedResidence !== foundResidence) {
             throw new Error("Couldn't update residence");
         }
-        res.status(200).send("Residence updated successfully");
+        response.status(200).send("Residence updated successfully");
     } catch (error) {
-        res.status(403).json({error: error.message});
+        response.status(403).json({error: error.message});
     }
 })
 

@@ -11,12 +11,12 @@ const app = express();
 const port = 3000;
 db();
 
-const requestReader = (req, res, next) => {
+const requestReader = (request, response, next) => {
 	console.log('-------Received Request-------')
-	console.log('Path: ', req.hostname)
+	console.log('Path: ', request.hostname)
 	console.log('Time: ', new Date())
-	console.log('Request Method: ', req.method)
-	console.log('Request Body: ', req.body)
+	console.log('Request Method: ', request.method)
+	console.log('Request Body: ', request.body)
     console.log('------------------------------')
 	next();
 }

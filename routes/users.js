@@ -3,20 +3,20 @@ const bcrypt = require('bcrypt');
 const usersRouter = express.Router();
 const User = require('../models/user');
 
-usersRouter.post('/', async(req, res) => {
+usersRouter.post('/', async(request, response) => {
     try {
         // Check if body is empty
-        if(req.body === undefined) {
+        if(request.body === undefined) {
             console.log('INVALID: body is empty');
-            return res.status(400).json({ error: 'Content missing' });
+            return response.status(400).json({ error: 'Content missing' });
         }
 
-        const { username, password, firstName, lastName, address, email, dob, customerId="testId" } = req.body;
+        const { username, password, firstName, lastName, address, email, dob, customerId="testId" } = request.body;
 
         // Check if username and password are valid
         if(!username || !password) {
             console.log('INVALID: username or password empty');
-            return res.status(400).json({ error: 'No username or password' });
+            return response.status(400).json({ error: 'No username or password' });
         }
 
         const saltRounds = 10;
@@ -36,10 +36,10 @@ usersRouter.post('/', async(req, res) => {
         await newUser.save();
 
         console.log('SUCCESS: saved user to database');
-        res.status(200).send('User saved');
+        response.status(200).send('User saved');
     } catch(error) {
         console.log(error);
-        res.status(400).json({ error: error.message })
+        response.status(400).json({ error: error.message })
     }
 });
 
